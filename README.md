@@ -1,4 +1,14 @@
-# Arcdex — Decentralized Stablecoin FX Exchange on Arc Network
+# Arcdex — Decentralized Stablecoin FX Exchange on Arc Network  
+
+---
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Discord](https://img.shields.io/discord/YOUR_DISCORD_ID?color=5865F2&label=Discord&logo=discord)](https://discord.com/invite/buildonarc)
+[![Twitter](https://img.shields.io/twitter/follow/arc_network?style=social)](https://x.com/arc_network)
+[![GitHub Stars](https://img.shields.io/github/stars/arc-network/arc-ecosystem?style=social)](https://github.com/arc-network)
+[![Docs](https://img.shields.io/badge/Docs-Arc%20Network-blue)](https://docs.arc.network/)
+
+---
 
 > A next-generation, non-custodial stablecoin DEX built natively on the Arc Testnet. Swap USDC ↔ EURC with zero slippage, gasless Permit2 authorization, and a built-in points & referral system — all in a clean, bilingual (EN/TR) interface.
 
@@ -391,3 +401,7 @@ This project is open source. Feel free to fork, build on, and contribute.
 <div align="center">
   <strong>Built on Arc Network — The Future of On-Chain FX</strong>
 </div>
+
+---
+
+- Built with ❤️ for the ARC NETWORK community.
