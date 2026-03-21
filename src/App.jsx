@@ -7,6 +7,7 @@ import Faucet from './pages/Faucet';
 import Bridge from './pages/Bridge';
 import Liquidity from './pages/Liquidity';
 import Leaderboard from './pages/Leaderboard';
+import Agent from './pages/Agent';
 import WalletModal from './components/WalletModal';
 import { useWallet } from './context/WalletContext';
 
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/bridge" element={<Bridge />} />
                     <Route path="/pool" element={<Liquidity />} />
                     <Route path="/leaderboard" element={<Leaderboard />} />
+                    <Route path="/agent" element={<Agent />} />
                 </Routes>
             </main>
 

@@ -60,7 +60,9 @@ export const WalletProvider = ({ children }) => {
                     }
                 });
 
-                window.ethereum.on('chainChanged', () => window.location.reload());
+                window.ethereum.on('chainChanged', () => {
+                    if (!window.__bridgeInProgress) window.location.reload();
+                });
             } else {
                 alert("WalletConnect not fully implemented in this demo.");
             }
