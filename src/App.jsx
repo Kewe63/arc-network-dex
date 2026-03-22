@@ -20,6 +20,24 @@ function App() {
 
     return (
         <div className="app-container">
+            {/* Video arka plan */}
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{
+                    position: 'fixed',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    zIndex: -2,
+                    opacity: 0.20,
+                }}
+            >
+                <source src="/bg.mp4" type="video/mp4" />
+            </video>
             <Navbar />
             <WalletModal />
             <main className="container" style={{ paddingBottom: '4rem', flex: 1 }}>

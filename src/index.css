@@ -8,8 +8,8 @@
 :root {
   --bg-primary: #0a0a0b;
   --bg-secondary: #0f0f11;
-  --bg-card: rgba(255,255,255,0.03);
-  --bg-card-hover: rgba(255,255,255,0.055);
+  --bg-card: rgba(10,10,14,0.75);
+  --bg-card-hover: rgba(10,10,14,0.85);
   --bg-input: rgba(255,255,255,0.05);
   --bg-glass: rgba(10,10,11,0.9);
   --bg-nav: rgba(10,10,11,0.92);
@@ -45,7 +45,7 @@
   --btn-ghost-bg: rgba(255,255,255,0.03);
   --btn-ghost-bg-hover: rgba(255,255,255,0.06);
 
-  --swap-box-bg: linear-gradient(160deg,rgba(255,255,255,0.04) 0%,rgba(255,255,255,0.015) 60%,rgba(200,200,210,0.02) 100%);
+  --swap-box-bg: linear-gradient(160deg,rgba(10,10,14,0.80) 0%,rgba(10,10,14,0.70) 60%,rgba(10,10,14,0.65) 100%);
   --swap-panel-bg: rgba(255,255,255,0.03);
   --swap-panel-focus-bg: rgba(255,255,255,0.045);
 
