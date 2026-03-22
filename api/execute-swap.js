@@ -1,7 +1,7 @@
 import { Wallet, JsonRpcProvider, Contract, parseUnits } from 'ethers';
 
 const RPC_URL = "https://rpc.testnet.arc.network";
-const FX_ESCROW = "0xf11aA9A07f6fe684BC0495aDAc8797137dd2e7eF";
+const FX_ESCROW = "0xd01d109f0a31A12E6eDF2c079B05Ea09E3FBA189";
 
 const ESCROW_ABI = [
     "function settle(address user, address tokenIn, uint256 amountIn, address tokenOut, uint256 amountOut, uint256 nonce, uint256 deadline, bytes calldata signature) external",
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const USDC_EURC_RATE = 0.92;
+        const USDC_EURC_RATE = 0.9525;
         const rate = isFlipped ? 1 / USDC_EURC_RATE : USDC_EURC_RATE;
         const toAmount = (parseFloat(fromAmount) * rate).toFixed(4);
 
