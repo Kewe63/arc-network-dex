@@ -4,7 +4,7 @@ import { useWallet } from '../context/WalletContext';
 import { usePoints } from '../context/PointsContext';
 import { useLang } from '../context/LangContext';
 import { checkPermit2Allowance, approvePermit2, getArcadeSignature } from '../utils/permit2';
-import { executeSwapEdge } from '../utils/backend';
+import { executeSwapEdge, checkRelayerHealth } from '../utils/backend';
 import { parseUnits } from 'ethers';
 import NotificationModal from './NotificationModal';
 
@@ -29,6 +29,8 @@ export default function SwapCard({ onActivityAdd }) {
     const [notify, setNotify] = useState({ open: false, title: '', message: '', onConfirm: null });
     const [fromDropOpen, setFromDropOpen] = useState(false);
     const [toDropOpen, setToDropOpen] = useState(false);
+    const [slippage, setSlippage] = useState('0.5');
+    const [relayerOk, setRelayerOk] = useState(null);
 
     const fromToken = isFlipped ? 'EURC' : 'USDC';
     const toToken = isFlipped ? 'USDC' : 'EURC';
@@ -37,6 +39,7 @@ export default function SwapCard({ onActivityAdd }) {
     const fromIcon = isFlipped ? EURC_ICON : USDC_ICON;
     const toIcon = isFlipped ? USDC_ICON : EURC_ICON;
     const rate = isFlipped ? 1 / USDC_EURC_RATE : USDC_EURC_RATE;
+    const minOut = fromAmount ? (parseFloat(fromAmount) * rate * (1 - parseFloat(slippage) / 100)).toFixed(4) : null;
 
     const showNotify = (title, message, onConfirm = null) =>
         setNotify({ open: true, title, message, onConfirm });
@@ -51,6 +54,10 @@ export default function SwapCard({ onActivityAdd }) {
         };
         check();
     }, [isConnected, signer, isFlipped]);
+
+    useEffect(() => {
+        checkRelayerHealth().then(ok => setRelayerOk(ok));
+    }, []);
 
     const handleAmountChange = e => {
         const val = e.target.value;
@@ -191,6 +198,22 @@ export default function SwapCard({ onActivityAdd }) {
                     </button>
                 </div>
 
+                {/* Relayer health uyarısı */}
+                {relayerOk === false && (
+                    <div style={{
+                        display: 'flex', alignItems: 'center', gap: '0.5rem',
+                        padding: '0.6rem 0.875rem',
+                        background: 'rgba(239,68,68,0.08)',
+                        border: '1px solid rgba(239,68,68,0.2)',
+                        borderRadius: 'var(--radius-md)',
+                        marginBottom: '1rem',
+                        fontSize: '0.78rem', color: '#f87171',
+                        fontFamily: 'var(--font-mono)',
+                    }}>
+                        ⚠ Relayer şu an çevrimdışı görünüyor — swap geçici olarak çalışmayabilir.
+                    </div>
+                )}
+
                 {/* FROM */}
                 <div className="swap-input-panel">
                     <div className="flex justify-between items-center" style={{ marginBottom: '0.55rem' }}>
@@ -265,6 +288,37 @@ export default function SwapCard({ onActivityAdd }) {
                 <div className="rate-bar">
                     <span>{tr('exchangeRate')}</span>
                     <span>1 {fromToken} = {rate.toFixed(4)} {toToken}</span>
+                </div>
+
+                {/* Slippage */}
+                <div style={{ marginTop: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                        <span className="font-mono" style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                            Slippage Toleransı
+                        </span>
+                        {minOut && (
+                            <span className="font-mono" style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                                Min. alınacak: {minOut} {toToken}
+                            </span>
+                        )}
+                    </div>
+                    <div className="percent-strip">
+                        {['0.1', '0.5', '1'].map(s => (
+                            <button
+                                key={s}
+                                className="percent-chip"
+                                onClick={() => setSlippage(s)}
+                                disabled={loading}
+                                style={{
+                                    borderColor: slippage === s ? 'var(--border-silver)' : undefined,
+                                    color: slippage === s ? 'var(--text-primary)' : undefined,
+                                    background: slippage === s ? 'var(--bg-card-hover)' : undefined,
+                                }}
+                            >
+                                {s}%
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {/* Progress */}

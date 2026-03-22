@@ -1,3 +1,18 @@
+export const checkRelayerHealth = async () => {
+    try {
+        const res = await fetch('/api/execute-swap', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ping: true }),
+        });
+        // 405 veya 400 → relayer ayakta ama geçersiz istek → OK
+        // 404 veya 5xx → relayer yok
+        return res.status !== 404 && res.status < 500;
+    } catch {
+        return false;
+    }
+};
+
 export const executeSwapEdge = async (fromAmount, signature, permitData, isFlipped, userAddr, recipient = null) => {
     try {
         const response = await fetch('/api/execute-swap', {

@@ -6,12 +6,22 @@ export default function ActivityFeed({ activities }) {
     const { tr } = useLang();
     const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = useState(1);
+    const [filter, setFilter] = useState('all');
 
     if (!activities || activities.length === 0) return null;
 
+    const filtered = filter === 'all'
+        ? activities
+        : activities.filter(tx => tx.pair && tx.pair.startsWith(filter));
+
     const perPage = 5;
-    const total = Math.ceil(activities.length / perPage);
-    const items = activities.slice((page - 1) * perPage, page * perPage);
+    const total = Math.ceil(filtered.length / perPage);
+    const items = filtered.slice((page - 1) * perPage, page * perPage);
+
+    const handleFilter = (f) => {
+        setFilter(f);
+        setPage(1);
+    };
 
     return (
         <div style={{ maxWidth: 480, margin: '1.5rem auto 0' }}>
@@ -28,9 +38,9 @@ export default function ActivityFeed({ activities }) {
                 }}
             >
                 <div className="flex items-center gap-1">
-                    <Activity size={16} color="var(--accent-violet)" />
+                    <Activity size={16} color="var(--text-secondary)" />
                     <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>{tr('recentActivity')}</span>
-                    <span className="pill pill-purple" style={{ fontSize: '0.72rem', padding: '0.15rem 0.6rem' }}>
+                    <span className="pill" style={{ fontSize: '0.72rem', padding: '0.15rem 0.6rem' }}>
                         {activities.length}
                     </span>
                 </div>
@@ -39,7 +49,35 @@ export default function ActivityFeed({ activities }) {
 
             {isOpen && (
                 <div className="flex-col gap-1">
-                    {items.map((tx, idx) => (
+                    {/* Filtre butonları */}
+                    <div style={{ display: 'flex', gap: '0.35rem', marginBottom: '0.75rem' }}>
+                        {[
+                            { key: 'all',  label: 'Tümü' },
+                            { key: 'USDC', label: 'USDC → EURC' },
+                            { key: 'EURC', label: 'EURC → USDC' },
+                        ].map(({ key, label }) => (
+                            <button
+                                key={key}
+                                className="percent-chip"
+                                onClick={() => handleFilter(key)}
+                                style={{
+                                    flex: 'none',
+                                    padding: '0.28rem 0.75rem',
+                                    borderColor: filter === key ? 'var(--border-silver)' : undefined,
+                                    color: filter === key ? 'var(--text-primary)' : undefined,
+                                    background: filter === key ? 'var(--bg-card-hover)' : undefined,
+                                }}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+
+                    {items.length === 0 ? (
+                        <div style={{ padding: '1rem', textAlign: 'center', fontSize: '0.82rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                            Bu filtrede işlem yok.
+                        </div>
+                    ) : items.map((tx, idx) => (
                         <div key={idx} className="activity-item">
                             <div style={{ flex: 1, minWidth: 0 }}>
                                 <div style={{ fontWeight: 600, fontSize: '0.875rem', marginBottom: '0.2rem' }}>{tx.pair}</div>
@@ -52,7 +90,7 @@ export default function ActivityFeed({ activities }) {
                                         target="_blank"
                                         rel="noreferrer"
                                         className="flex items-center gap-1 text-xs"
-                                        style={{ marginTop: '0.35rem', color: 'var(--accent-violet)', textDecoration: 'none', fontWeight: 500 }}
+                                        style={{ marginTop: '0.35rem', color: '#34d399', textDecoration: 'none', fontWeight: 500 }}
                                     >
                                         {tr('viewOnExplorer')} <ExternalLink size={11} />
                                     </a>
