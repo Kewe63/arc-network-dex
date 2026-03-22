@@ -33,7 +33,7 @@ export default function Bridge() {
         }
     }, [isConnected, address, sourceChainId, fetchTokenBalance]);
 
-    // Save successful transactions to localStorage
+    // Save successful transactions to localStorage + confetti + sound
     useEffect(() => {
         if (state.step === 'success' && state.direction && amount) {
             const transaction = {
@@ -52,6 +52,20 @@ export default function Bridge() {
                 existing.unshift(transaction);
                 localStorage.setItem('bridgeTransactions', JSON.stringify(existing.slice(0, 10)));
             }
+
+            const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3');
+            audio.volume = 0.4;
+            audio.play().catch(() => {});
+
+            import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/+esm').then(({ default: confetti }) => {
+                confetti({
+                    particleCount: 160,
+                    spread: 150,
+                    origin: { y: 0.6 },
+                    colors: ['#ffffff', '#c8c8d0', '#909098', '#e0e0e8', '#606068'],
+                    zIndex: 9999,
+                });
+            });
         }
     }, [state.step, state.direction, amount, sourceChainName, destinationChainName, state.sourceTxHash, state.receiveTxHash]);
 
