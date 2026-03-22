@@ -54,15 +54,16 @@ Get testnet tokens from the built-in **Faucet** page (redirects to Circle's offi
 ## Features
 
 ### Swap
-- **USDC ↔ EURC** swaps at a fixed deterministic rate (1 USDC = 0.92 EURC)
+- **USDC ↔ EURC** swaps at a fixed deterministic rate (1 USDC = 0.9525 EURC)
 - One-click swap flow — no separate `approve()` transaction needed
 - Gasless authorization via **Permit2** EIP-712 typed data signing
+- Slippage protection (0.1% / 0.5% / 1.0%)
 - Real-time balance display with auto-refresh
 - Progress bar with step-by-step status during swap execution
 - 25% / 50% / 75% / MAX percentage shortcuts
 - Token flip (reverse swap direction)
 - Success animation: confetti + sound effect on confirmed swap
-- Transaction history in collapsible **Activity Feed** with block explorer links
+- Transaction history in collapsible **Activity Feed** with token filter (All / USDC→EURC / EURC→USDC) and block explorer links
 
 ### Liquidity Pool
 - Deposit USDC or EURC into Arc Escrow to provide liquidity for swaps
@@ -325,7 +326,7 @@ To add a new language, add a new key to the `translations` object in `LangContex
 |----------|---------|
 | USDC | `0x3600000000000000000000000000000000000000` |
 | EURC | `0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a` |
-| FX Escrow (Liquidity + Swaps) | `0xf11aA9A07f6fe684BC0495aDAc8797137dd2e7eF` |
+| FX Escrow / Kewe63 (Liquidity + Swaps) | `0xd01d109f0a31A12E6eDF2c079B05Ea09E3FBA189` |
 | Permit2 | `0x000000000022D473030F116dDEE9F6B43aC78BA3` |
 | ERC-8004 IdentityRegistry | `0x8004A818BFB912233c491871b3d84c89A494BD9e` |
 | ERC-8004 ReputationRegistry | `0x8004B663056A597Dffe9eCcC1965A193B7388713` |
