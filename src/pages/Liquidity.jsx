@@ -8,7 +8,7 @@ import ActivityFeed from '../components/ActivityFeed';
 
 const USDC_ADDR = "0x3600000000000000000000000000000000000000";
 const EURC_ADDR = "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a";
-const ESCROW_ADDR = "0xf11aA9A07f6fe684BC0495aDAc8797137dd2e7eF";
+const ESCROW_ADDR = "0xd01d109f0a31A12E6eDF2c079B05Ea09E3FBA189";
 
 const ERC20_ABI = [
     "function approve(address spender, uint256 amount) public returns (bool)",
