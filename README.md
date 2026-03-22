@@ -29,6 +29,7 @@
 - [Getting Started](#getting-started)
 - [Deployment](#deployment)
 - [Environment & Configuration](#environment--configuration)
+- [ERC-8004 AI Agent Registry](#erc-8004-ai-agent-registry)
 
 ---
 
@@ -98,9 +99,25 @@ Get testnet tokens from the built-in **Faucet** page (redirects to Circle's offi
 - One-time use per wallet (can't refer yourself)
 - Code entry form with instant feedback
 
-### Bridge (Coming Soon)
-- Planned: bridge USDC from Ethereum, Arbitrum, Base → Arc Testnet
-- Currently shows a "Coming Soon" card with links to Swap & Faucet
+### Bridge
+- Bridge **USDC** between **Ethereum Sepolia** and **Arc Testnet** using Circle's Cross-Chain Transfer Protocol (CCTP)
+- Powered by `@circle-fin/bridge-kit` — gasless Circle Bridge integration
+- Step-by-step flow: Switch network → Approve → Burn on source chain → Mint on destination chain
+- Live status updates for each bridge step (switching, approving, signing, waiting for attestation)
+- Transaction history saved to `localStorage` with explorer links for both source and destination tx
+- Balance display for the source chain token before bridging
+- Bidirectional: **Sepolia → Arc** and **Arc → Sepolia**
+
+### AI Agent Registry (ERC-8004)
+- Register AI agents with onchain identity NFTs using the **ERC-8004** standard on Arc Testnet
+- Three fully onchain operations:
+  - **Register**: Mint an identity NFT for your AI agent with a custom or default IPFS metadata URI
+  - **Reputation Feedback**: Record onchain feedback scores (0–100) for any registered agent with categorized tags
+  - **Validation Request**: Submit credential verification requests to a chosen validator address
+- Automatically detects if the connected wallet already has a registered agent
+- Shows agent ID, metadata URI, and links to the Arc block explorer
+- Per ERC-8004 spec: agent owners cannot submit feedback for their own agents
+- Uses `viem` for all read operations and `ethers.js` for write transactions
 
 ### Faucet
 - Step-by-step guide to get testnet USDC from Circle's official faucet
@@ -122,7 +139,9 @@ Get testnet tokens from the built-in **Faucet** page (redirects to Circle's offi
 | Framework | React 18 |
 | Build Tool | Vite 5 |
 | Routing | React Router v6 |
-| Blockchain | ethers.js v6 |
+| Blockchain (write) | ethers.js v6 |
+| Blockchain (read) | viem v2 |
+| Bridge | @circle-fin/bridge-kit + @circle-fin/adapter-viem-v2 |
 | Icons | lucide-react |
 | Styling | Custom CSS (CSS Variables, no Tailwind) |
 | State | React Context API |
@@ -156,11 +175,16 @@ arc-dex/
 │   │   ├── NotificationModal.jsx # Reusable confirm/alert modal
 │   │   └── WalletModal.jsx      # MetaMask / WalletConnect connection modal
 │   │
+│   ├── hooks/
+│   │   ├── useBridgeKit.js      # Circle BridgeKit hook — USDC cross-chain bridge
+│   │   └── useAgentRegistry.js  # ERC-8004 hook — register, reputation, validation
+│   │
 │   ├── pages/
 │   │   ├── Landing.jsx          # Homepage with hero, features, how it works
 │   │   ├── Swap.jsx             # Swap page with SwapCard + points panel
 │   │   ├── Liquidity.jsx        # Pool management (deposit/withdraw)
-│   │   ├── Bridge.jsx           # Coming soon page
+│   │   ├── Bridge.jsx           # USDC cross-chain bridge (Sepolia ↔ Arc Testnet)
+│   │   ├── Agent.jsx            # ERC-8004 AI Agent Registry page
 │   │   ├── Faucet.jsx           # Faucet guide page
 │   │   └── Leaderboard.jsx      # Points leaderboard + daily check-in + referral
 │   │
@@ -303,6 +327,9 @@ To add a new language, add a new key to the `translations` object in `LangContex
 | EURC | `0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a` |
 | FX Escrow (Liquidity + Swaps) | `0xf11aA9A07f6fe684BC0495aDAc8797137dd2e7eF` |
 | Permit2 | `0x000000000022D473030F116dDEE9F6B43aC78BA3` |
+| ERC-8004 IdentityRegistry | `0x8004A818BFB912233c491871b3d84c89A494BD9e` |
+| ERC-8004 ReputationRegistry | `0x8004B663056A597Dffe9eCcC1965A193B7388713` |
+| ERC-8004 ValidationRegistry | `0x8004Cb1BF31DAf7788923b405b754f57acEB4272` |
 
 | Network | Value |
 |---------|-------|
@@ -401,6 +428,63 @@ This project is open source. Feel free to fork, build on, and contribute.
 <div align="center">
   <strong>Built on Arc Network — The Future of On-Chain FX</strong>
 </div>
+
+---
+
+## ERC-8004 AI Agent Registry
+
+Arcdex implements the **ERC-8004** standard — a protocol for registering AI agents with onchain identity, reputation, and credential verification on Arc Testnet.
+
+### Contracts
+
+| Contract | Address |
+|----------|---------|
+| IdentityRegistry | [`0x8004A818BFB912233c491871b3d84c89A494BD9e`](https://testnet.arcscan.app/address/0x8004A818BFB912233c491871b3d84c89A494BD9e) |
+| ReputationRegistry | [`0x8004B663056A597Dffe9eCcC1965A193B7388713`](https://testnet.arcscan.app/address/0x8004B663056A597Dffe9eCcC1965A193B7388713) |
+| ValidationRegistry | [`0x8004Cb1BF31DAf7788923b405b754f57acEB4272`](https://testnet.arcscan.app/address/0x8004Cb1BF31DAf7788923b405b754f57acEB4272) |
+
+### How It Works
+
+**1. Register (`/agent` → Register Agent Identity)**
+```
+User provides metadata URI (IPFS or HTTPS)
+       │
+       ▼
+IdentityRegistry.register(metadataURI)
+       │
+       ▼
+ERC-721 NFT minted → Agent ID assigned to wallet
+```
+
+**2. Reputation Feedback**
+```
+Reviewer provides: agentId + score (0-100) + tag
+       │
+       ▼
+ReputationRegistry.giveFeedback(agentId, score, category, tag, ...)
+       │
+       ▼
+Feedback recorded onchain (owners cannot review their own agents)
+```
+
+**3. Validation Request**
+```
+Owner provides: agentId + validator address
+       │
+       ▼
+ValidationRegistry.validationRequest(validator, agentId, requestURI, requestHash)
+       │
+       ▼
+Credential verification request sent to chosen validator
+```
+
+### Hook: `useAgentRegistry.js`
+
+All onchain interactions are handled by the `useAgentRegistry` hook:
+- **Reads** via `viem` `createPublicClient` (no wallet required)
+- **Writes** via `ethers.js` `Contract` with the connected signer
+- Auto-detects existing agent for the connected wallet via `tokenOfOwnerByIndex` (falls back to Transfer event scan)
+- Switches MetaMask to Arc Testnet automatically before any write transaction
 
 ---
 
