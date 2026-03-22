@@ -111,8 +111,36 @@ export default function Agent() {
     useEffect(() => {
         if (registerState.step === 'success') {
             setTimeout(() => fetchAgentInfo(), 3000);
+            const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3');
+            audio.volume = 0.4;
+            audio.play().catch(() => {});
+            import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/+esm').then(({ default: confetti }) => {
+                confetti({ particleCount: 160, spread: 150, origin: { y: 0.6 }, colors: ['#ffffff', '#c8c8d0', '#909098', '#e0e0e8', '#606068'], zIndex: 9999 });
+            });
         }
     }, [registerState.step, fetchAgentInfo]);
+
+    useEffect(() => {
+        if (reputationState.step === 'success') {
+            const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3');
+            audio.volume = 0.4;
+            audio.play().catch(() => {});
+            import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/+esm').then(({ default: confetti }) => {
+                confetti({ particleCount: 160, spread: 150, origin: { y: 0.6 }, colors: ['#ffffff', '#c8c8d0', '#909098', '#e0e0e8', '#606068'], zIndex: 9999 });
+            });
+        }
+    }, [reputationState.step]);
+
+    useEffect(() => {
+        if (validationState.step === 'success') {
+            const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3');
+            audio.volume = 0.4;
+            audio.play().catch(() => {});
+            import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/+esm').then(({ default: confetti }) => {
+                confetti({ particleCount: 160, spread: 150, origin: { y: 0.6 }, colors: ['#ffffff', '#c8c8d0', '#909098', '#e0e0e8', '#606068'], zIndex: 9999 });
+            });
+        }
+    }, [validationState.step]);
 
     useEffect(() => {
         if (agentInfo?.agentId) {
