@@ -10,7 +10,7 @@ import NotificationModal from './NotificationModal';
 
 const USDC_ADDR = "0x3600000000000000000000000000000000000000";
 const EURC_ADDR = "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a";
-const USDC_EURC_RATE = 0.92;
+const USDC_EURC_RATE = 0.9525;
 
 const USDC_ICON = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png";
 const EURC_ICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%2310b981'/%3E%3Ctext x='50' y='74' font-family='Arial' font-size='65' font-weight='bold' fill='white' text-anchor='middle'%3E€%3C/text%3E%3C/svg%3E";
