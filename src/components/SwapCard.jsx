@@ -4,7 +4,7 @@ import { useWallet } from '../context/WalletContext';
 import { usePoints } from '../context/PointsContext';
 import { useLang } from '../context/LangContext';
 import { checkPermit2Allowance, approvePermit2, getArcadeSignature } from '../utils/permit2';
-import { executeSwapEdge, checkRelayerHealth } from '../utils/backend';
+import { executeSwapEdge } from '../utils/backend';
 import { parseUnits } from 'ethers';
 import NotificationModal from './NotificationModal';
 
@@ -30,7 +30,6 @@ export default function SwapCard({ onActivityAdd }) {
     const [fromDropOpen, setFromDropOpen] = useState(false);
     const [toDropOpen, setToDropOpen] = useState(false);
     const [slippage, setSlippage] = useState('0.5');
-    const [relayerOk, setRelayerOk] = useState(null);
 
     const fromToken = isFlipped ? 'EURC' : 'USDC';
     const toToken = isFlipped ? 'USDC' : 'EURC';
@@ -55,9 +54,6 @@ export default function SwapCard({ onActivityAdd }) {
         check();
     }, [isConnected, signer, isFlipped]);
 
-    useEffect(() => {
-        checkRelayerHealth().then(ok => setRelayerOk(ok));
-    }, []);
 
     const handleAmountChange = e => {
         const val = e.target.value;
@@ -198,21 +194,6 @@ export default function SwapCard({ onActivityAdd }) {
                     </button>
                 </div>
 
-                {/* Relayer health uyarısı */}
-                {relayerOk === false && (
-                    <div style={{
-                        display: 'flex', alignItems: 'center', gap: '0.5rem',
-                        padding: '0.6rem 0.875rem',
-                        background: 'rgba(239,68,68,0.08)',
-                        border: '1px solid rgba(239,68,68,0.2)',
-                        borderRadius: 'var(--radius-md)',
-                        marginBottom: '1rem',
-                        fontSize: '0.78rem', color: '#f87171',
-                        fontFamily: 'var(--font-mono)',
-                    }}>
-                        ⚠ Relayer şu an çevrimdışı görünüyor — swap geçici olarak çalışmayabilir.
-                    </div>
-                )}
 
                 {/* FROM */}
                 <div className="swap-input-panel">
