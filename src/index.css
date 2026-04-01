@@ -602,6 +602,9 @@ nav.main-nav {
 
 /* ===================== MOBILE (≤768px) ===================== */
 @media (max-width: 768px) {
+  /* Kapsamlı Font Ölçeklendirme (Tüm REM birimlerini %12.5 küçültür) */
+  html { font-size: 14px; }
+
   /* Navbar */
   nav.main-nav { height: 58px; padding: 0 1rem; }
   .nav-links { display: none; }
@@ -621,55 +624,66 @@ nav.main-nav {
   .mobile-only  { display: flex; }
   .desktop-only { display: none !important; }
 
-  /* Grids → single column */
+  /* Layout Yığını (Flex/Grid) */
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .pool-grid { grid-template-columns: 1fr !important; }
+  
+  /* Flex yapıları alt alta almak ve taşmaları engellemek */
+  .flex { flex-wrap: wrap; }
+  .glass-card > div[style*="display: flex"] {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 0.8rem !important;
+  }
+  .feature-card { flex-direction: column; align-items: flex-start; padding: 1.25rem; }
 
-  /* Container padding */
-  .container { padding: 0 1rem; }
+  /* Uzun metinler/adresler için taşma engeli */
+  p, span, h1, h2, h3, h4, a, div, .font-mono {
+      word-break: break-word;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal !important;
+  }
 
-  /* Swap */
+  /* Swap Box & Page Containers */
+  .container { padding: 0 1rem; overflow-x: hidden; }
   .swap-wrapper { max-width: 100%; }
-  .swap-box { padding: 1.1rem; border-radius: var(--radius-lg); }
-  .swap-amount-input { font-size: 1.5rem; }
+  .swap-box { padding: 1.1rem; border-radius: var(--radius-lg); width: 100%; }
+  .swap-amount-input { font-size: 1.6rem; }
   .swap-input-panel { padding: 0.85rem 1rem; }
 
   /* Modal */
-  .modal-box { padding: 1.25rem; border-radius: var(--radius-lg); }
+  .modal-box { padding: 1.25rem; border-radius: var(--radius-lg); margin: 0 1rem; }
 
-  /* Hero */
+  /* Hero & Page Headers */
   .hero-logo-size { width: 40px !important; height: 40px !important; }
-  .hero-title-size { font-size: clamp(1.6rem, 7vw, 2.5rem) !important; }
-  .hero-name-size  { font-size: clamp(1.8rem, 8vw, 2.8rem) !important; }
+  .hero-title-size { font-size: clamp(2rem, 8vw, 3rem) !important; line-height: 1.1; }
+  .hero-name-size  { font-size: clamp(2.2rem, 10vw, 3.5rem) !important; }
 
-  /* Pages padding */
-  .page-padding { padding: 1.5rem 0 !important; }
+  .page-header { padding: 1.5rem 0 1.25rem; margin-bottom: 1.25rem; }
+  .page-title { font-size: clamp(1.75rem, 6vw, 2.25rem); }
+  .page-subtitle { font-size: 0.85rem; }
+  .status-badge { font-size: 0.65rem; }
 
-  /* Pool grid fix */
-  .pool-grid { grid-template-columns: 1fr !important; }
-
-  /* Feature cards */
-  .feature-card { padding: 1.1rem; }
-
-  /* Buttons full width on small */
+  /* Buttons */
   .btn-mobile-full { width: 100%; justify-content: center; }
+  .btn { width: 100%; justify-content: center; margin-bottom: 0.25rem; }
 
   /* Footer */
-  .footer-wrap { flex-direction: column; gap: 0.5rem; align-items: center; }
-
-  /* Page header */
-  .page-header { padding: 1.5rem 0 1.25rem; margin-bottom: 1.25rem; }
-  .page-title { font-size: clamp(1.5rem, 6vw, 2rem); }
-  .status-badge { font-size: 0.65rem; }
+  .footer-wrap { flex-direction: column; gap: 0.5rem; align-items: center; text-align: center; }
 }
 
 /* ===================== SMALL MOBILE (≤420px) ===================== */
 @media (max-width: 420px) {
+  html { font-size: 13px; }
   nav.main-nav { padding: 0 0.75rem; height: 54px; }
-  .logo-wordmark { font-size: 1.1rem; }
-  .swap-amount-input { font-size: 1.3rem; }
+  .logo-wordmark { font-size: 1.2rem; }
+  .swap-amount-input { font-size: 1.4rem; }
   .token-badge { padding: 0.4rem 0.65rem; font-size: 0.8rem; }
-  .percent-chip { font-size: 0.7rem; }
-  .swap-box { padding: 0.9rem; }
+  .percent-chip { font-size: 0.75rem; }
+  .swap-box { padding: 1rem; }
   .modal-box { padding: 1rem; }
-  .btn { font-size: 0.82rem; padding: 0.6rem 1rem; }
+  
+  /* Extremely small screen layout fixes */
+  .glass-card { padding: 0.85rem !important; }
 }

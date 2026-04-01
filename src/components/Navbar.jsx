@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Sun, Moon, Wallet, Menu, X, Shuffle, Droplet, Globe, Coins, Trophy, Bot } from 'lucide-react';
+import { Sun, Moon, Wallet, Menu, X, Shuffle, Droplet, Globe, Coins, Trophy, Bot, Briefcase } from 'lucide-react';
 import { useWallet } from '../context/WalletContext';
 import { useLang } from '../context/LangContext';
 
@@ -45,6 +45,7 @@ export default function Navbar() {
         { to: '/bridge',      icon: <Globe size={14} />,   label: 'Bridge',      dot: 'live' },
         { to: '/faucet',      icon: <Droplet size={14} />, label: 'Faucet',      dot: 'default' },
         { to: '/agent',       icon: <Bot size={14} />,    label: 'Agent',       dot: 'live' },
+        { to: '/jobs',        icon: <Briefcase size={14} />, label: 'Jobs',      dot: 'live' },
     ];
 
     return (
