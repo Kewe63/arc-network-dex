@@ -611,6 +611,7 @@ nav.main-nav {
   .nav-links.mobile-open {
     display: flex; flex-direction: column;
     position: absolute; top: 58px; left: 0; right: 0;
+    transform: none; /* FIX: Prevents the menu from sliding out to the left */
     background: var(--bg-mobile-menu);
     backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--border-subtle);
@@ -619,6 +620,7 @@ nav.main-nav {
     box-shadow: var(--shadow-card);
   }
   .nav-link { width: 100%; border-radius: var(--radius-md); }
+  .nav-actions { gap: 0.35rem; }
 
   /* Visibility helpers */
   .mobile-only  { display: flex; }
@@ -671,6 +673,9 @@ nav.main-nav {
 
   /* Footer */
   .footer-wrap { flex-direction: column; gap: 0.5rem; align-items: center; text-align: center; }
+
+  /* Navbar Buttons Fix */
+  .btn-connect-mobile-fix { padding: 0.45rem 0.65rem !important; }
 }
 
 /* ===================== SMALL MOBILE (≤420px) ===================== */

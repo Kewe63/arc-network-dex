@@ -96,15 +96,19 @@ export default function Navbar() {
                                 <Wallet size={12} /> {short(address)}
                             </span>
                             <button onClick={disconnect} className="btn btn-danger"
-                                style={{ padding: '0.45rem 0.875rem', fontSize: '0.8rem' }}>
-                                {tr('disconnect')}
+                                style={{ padding: '0.45rem 0.875rem', fontSize: '0.8rem' }}
+                                title={tr('disconnect')}>
+                                <span className="desktop-only">{tr('disconnect')}</span>
+                                <span className="mobile-only"><X size={15}/></span>
                             </button>
                         </div>
                     ) : (
                         <button onClick={() => { setIsModalOpen(true); close(); }}
-                            className="btn btn-silver"
-                            style={{ padding: '0.5rem 1.1rem', fontSize: '0.85rem' }}>
-                            {tr('connectWallet')}
+                            className="btn btn-silver btn-connect-mobile-fix"
+                            style={{ padding: '0.5rem 1.1rem', fontSize: '0.85rem' }}
+                            title={tr('connectWallet')}>
+                            <span className="desktop-only">{tr('connectWallet')}</span>
+                            <span className="mobile-only"><Wallet size={15}/></span>
                         </button>
                     )
                 )}
