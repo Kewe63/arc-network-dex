@@ -121,7 +121,8 @@ export default function Jobs() {
                 setTimeout(() => fetchJob(fJobId), 3000);
             }
         }
-    }, [actionState.step, actionState.newJobId, fJobId, fetchJob]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [actionState.txHash]);
 
     useEffect(() => {
         if (fJobId) fetchJob(fJobId);
