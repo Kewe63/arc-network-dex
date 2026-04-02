@@ -98,25 +98,48 @@ export default function Jobs() {
     const [cDescription, setCDescription] = useState('ERC-8183 demo job');
     
     const [fJobId, setFJobId] = useState('');
-    const [myJobs, setMyJobs] = useState([]);
-
-    // Load jobs specific to THIS wallet only
-    useEffect(() => {
-        if (address) {
-            try {
-                const saved = JSON.parse(localStorage.getItem(`arc_jobs_${address.toLowerCase()}`) || '[]');
-                setMyJobs(saved);
-            } catch (e) { setMyJobs([]); }
-        } else {
-            setMyJobs([]);
-        }
-    }, [address]);
     
     // Set Budget
     const [bAmount, setBAmount] = useState('5');
     
     const [sDeliverable, setSDeliverable] = useState('deliverable data');
     const [cReason, setCReason] = useState('approved');
+
+    // --- Private My Jobs Storage ---
+    const [myJobs, setMyJobs] = useState([]);
+
+    useEffect(() => {
+        if (!address) return;
+        const stored = localStorage.getItem(`arc_jobs_${address.toLowerCase()}`);
+        if (stored) {
+            try { setMyJobs(JSON.parse(stored)); } catch (e) {}
+        } else {
+            setMyJobs([]);
+        }
+    }, [address]);
+
+    const addMyJob = React.useCallback((newId) => {
+        if (!address || !newId) return;
+        const idStr = newId.toString();
+        setMyJobs(prev => {
+            if (prev.includes(idStr)) return prev;
+            const up = [idStr, ...prev].slice(0, 50); // Keep max 50 recent jobs
+            localStorage.setItem(`arc_jobs_${address.toLowerCase()}`, JSON.stringify(up));
+            return up;
+        });
+    }, [address]);
+
+    // Save fetched jobs automatically if user is involved
+    useEffect(() => {
+        if (jobInfo && address) {
+            const addr = address.toLowerCase();
+            if (jobInfo.client.toLowerCase() === addr || 
+                jobInfo.provider.toLowerCase() === addr ||
+                jobInfo.evaluator.toLowerCase() === addr) {
+                addMyJob(jobInfo.id);
+            }
+        }
+    }, [jobInfo, address, addMyJob]);
 
     useEffect(() => {
         if (actionState.step === 'success') {
@@ -127,16 +150,9 @@ export default function Jobs() {
                 confetti({ particleCount: 160, spread: 150, origin: { y: 0.6 }, colors: ['#ffffff', '#c8c8d0', '#909098', '#e0e0e8', '#606068'], zIndex: 9999 });
             });
             if (actionState.newJobId) {
-                const newId = actionState.newJobId;
-                setMyJobs(prev => {
-                    if (prev.includes(newId)) return prev;
-                    const next = [newId, ...prev];
-                    if (address) localStorage.setItem(`arc_jobs_${address.toLowerCase()}`, JSON.stringify(next));
-                    return next;
-                });
-                
-                setFJobId(newId);
-                setTimeout(() => fetchJob(newId), 3000);
+                addMyJob(actionState.newJobId);
+                setFJobId(actionState.newJobId);
+                setTimeout(() => fetchJob(actionState.newJobId), 3000);
                 setTimeout(() => setOpenSection('budget'), 3500);
             } else if (fJobId) {
                 setTimeout(() => fetchJob(fJobId), 3000);
@@ -223,37 +239,36 @@ export default function Jobs() {
                                 border: '1px solid var(--border-medium)',
                             }}
                         />
-                        {myJobs.length > 0 && (
-                            <div style={{ marginTop: '0.85rem' }}>
-                                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.4rem' }}>
-                                    Your Jobs (Private):
-                                </span>
-                                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                                    {myJobs.map(id => (
-                                        <button
-                                            key={id}
-                                            onClick={() => setFJobId(id)}
-                                            style={{
-                                                background: fJobId === id ? 'var(--text-primary)' : 'rgba(255,255,255,0.05)',
-                                                color: fJobId === id ? 'var(--bg-main)' : 'var(--text-secondary)',
-                                                border: '1px solid',
-                                                borderColor: fJobId === id ? 'var(--text-primary)' : 'var(--border-medium)',
-                                                borderRadius: 'var(--radius-sm)',
-                                                padding: '0.2rem 0.5rem',
-                                                fontSize: '0.75rem',
-                                                cursor: 'pointer',
-                                                fontWeight: 600,
-                                                fontFamily: 'monospace'
-                                            }}
-                                        >
-                                            #{id}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
                     </div>
                 </div>
+
+                {myJobs.length > 0 && (
+                    <div style={{ marginBottom: '1.2rem', paddingBottom: '0.8rem', borderBottom: '1px dashed var(--border-subtle)' }}>
+                        <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: '0.6rem' }}>
+                            Your Recent Jobs
+                        </label>
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                            {myJobs.map(jid => (
+                                <button
+                                    key={jid}
+                                    onClick={() => setFJobId(jid)}
+                                    className={`pill ${fJobId === jid ? 'pill-green' : 'pill-silver'}`}
+                                    style={{ 
+                                        border: fJobId === jid ? '1px solid #22c55e' : '1px solid var(--border-subtle)', 
+                                        background: fJobId === jid ? 'rgba(34,197,94,0.1)' : 'var(--bg-input)',
+                                        cursor: 'pointer', fontSize: '0.75rem', padding: '0.35rem 0.7rem', fontWeight: 600,
+                                        transition: 'all 0.2s ease', color: fJobId === jid ? '#22c55e' : 'var(--text-primary)'
+                                    }}
+                                >
+                                    #{jid}
+                                </button>
+                            ))}
+                        </div>
+                        <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+                            *Only visible to you (saved in browser cache).
+                        </p>
+                    </div>
+                )}
 
                 {fJobId && (
                     <div style={{
