@@ -98,6 +98,19 @@ export default function Jobs() {
     const [cDescription, setCDescription] = useState('ERC-8183 demo job');
     
     const [fJobId, setFJobId] = useState('');
+    const [myJobs, setMyJobs] = useState([]);
+
+    // Load jobs specific to THIS wallet only
+    useEffect(() => {
+        if (address) {
+            try {
+                const saved = JSON.parse(localStorage.getItem(`arc_jobs_${address.toLowerCase()}`) || '[]');
+                setMyJobs(saved);
+            } catch (e) { setMyJobs([]); }
+        } else {
+            setMyJobs([]);
+        }
+    }, [address]);
     
     // Set Budget
     const [bAmount, setBAmount] = useState('5');
@@ -114,8 +127,16 @@ export default function Jobs() {
                 confetti({ particleCount: 160, spread: 150, origin: { y: 0.6 }, colors: ['#ffffff', '#c8c8d0', '#909098', '#e0e0e8', '#606068'], zIndex: 9999 });
             });
             if (actionState.newJobId) {
-                setFJobId(actionState.newJobId);
-                setTimeout(() => fetchJob(actionState.newJobId), 3000);
+                const newId = actionState.newJobId;
+                setMyJobs(prev => {
+                    if (prev.includes(newId)) return prev;
+                    const next = [newId, ...prev];
+                    if (address) localStorage.setItem(`arc_jobs_${address.toLowerCase()}`, JSON.stringify(next));
+                    return next;
+                });
+                
+                setFJobId(newId);
+                setTimeout(() => fetchJob(newId), 3000);
                 setTimeout(() => setOpenSection('budget'), 3500);
             } else if (fJobId) {
                 setTimeout(() => fetchJob(fJobId), 3000);
@@ -202,6 +223,35 @@ export default function Jobs() {
                                 border: '1px solid var(--border-medium)',
                             }}
                         />
+                        {myJobs.length > 0 && (
+                            <div style={{ marginTop: '0.85rem' }}>
+                                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.4rem' }}>
+                                    Your Jobs (Private):
+                                </span>
+                                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                                    {myJobs.map(id => (
+                                        <button
+                                            key={id}
+                                            onClick={() => setFJobId(id)}
+                                            style={{
+                                                background: fJobId === id ? 'var(--text-primary)' : 'rgba(255,255,255,0.05)',
+                                                color: fJobId === id ? 'var(--bg-main)' : 'var(--text-secondary)',
+                                                border: '1px solid',
+                                                borderColor: fJobId === id ? 'var(--text-primary)' : 'var(--border-medium)',
+                                                borderRadius: 'var(--radius-sm)',
+                                                padding: '0.2rem 0.5rem',
+                                                fontSize: '0.75rem',
+                                                cursor: 'pointer',
+                                                fontWeight: 600,
+                                                fontFamily: 'monospace'
+                                            }}
+                                        >
+                                            #{id}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
