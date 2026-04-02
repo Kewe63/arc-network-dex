@@ -113,11 +113,15 @@ export default function Jobs() {
             import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/+esm').then(({ default: confetti }) => {
                 confetti({ particleCount: 160, spread: 150, origin: { y: 0.6 }, colors: ['#ffffff', '#c8c8d0', '#909098', '#e0e0e8', '#606068'], zIndex: 9999 });
             });
-            if (fJobId) {
+            if (actionState.newJobId) {
+                setFJobId(actionState.newJobId);
+                setTimeout(() => fetchJob(actionState.newJobId), 3000);
+                setTimeout(() => setOpenSection('budget'), 3500);
+            } else if (fJobId) {
                 setTimeout(() => fetchJob(fJobId), 3000);
             }
         }
-    }, [actionState.step, fJobId, fetchJob]);
+    }, [actionState.step, actionState.newJobId, fJobId, fetchJob]);
 
     useEffect(() => {
         if (fJobId) fetchJob(fJobId);

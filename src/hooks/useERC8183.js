@@ -143,7 +143,7 @@ export const JOB_STATUS_NAMES = [
 ];
 
 function getInitialState() {
-    return { step: 'idle', isLoading: false, error: null, txHash: null };
+    return { step: 'idle', isLoading: false, error: null, txHash: null, newJobId: null };
 }
 
 export function useERC8183(signer, address, isConnected) {
@@ -181,8 +181,8 @@ export function useERC8183(signer, address, isConnected) {
         const { Contract } = await import('ethers');
         const contract = new Contract(contractAddress, abi, signer);
         const tx = await contract[functionName](...args);
-        await tx.wait();
-        return tx.hash;
+        const receipt = await tx.wait();
+        return { txHash: tx.hash, receipt, contract };
     }, [signer]);
 
     const createJob = useCallback(async (provider, evaluator, description) => {
@@ -195,14 +195,25 @@ export function useERC8183(signer, address, isConnected) {
             const expiredAt = Math.floor(Date.now() / 1000) + 7 * 24 * 3600; // 7 days from now
             const hook = '0x0000000000000000000000000000000000000000';
 
-            const txHash = await sendTx(
+            const { txHash, receipt, contract } = await sendTx(
                 AGENTIC_COMMERCE_CONTRACT,
                 ERC8183_ABI,
                 'createJob',
                 [provider, evaluator, expiredAt, description, hook]
             );
 
-            setActionState({ step: 'success', isLoading: false, error: null, txHash });
+            let newJobId = null;
+            for (const log of receipt.logs) {
+                try {
+                    const parsed = contract.interface.parseLog({ topics: log.topics.slice(), data: log.data });
+                    if (parsed && parsed.name === 'JobCreated') {
+                        newJobId = parsed.args.jobId.toString();
+                        break;
+                    }
+                } catch (e) {}
+            }
+
+            setActionState({ step: 'success', isLoading: false, error: null, txHash, newJobId });
         } catch (err) {
             console.error('createJob err:', err);
             setActionState({ step: 'error', isLoading: false, error: err?.message || 'Transaction failed', txHash: null });
@@ -218,7 +229,7 @@ export function useERC8183(signer, address, isConnected) {
             setActionState({ step: 'setting_budget', isLoading: true, error: null, txHash: null });
             const amount = parseUnits(budgetAmountStr, 6);
 
-            const txHash = await sendTx(
+            const { txHash } = await sendTx(
                 AGENTIC_COMMERCE_CONTRACT,
                 ERC8183_ABI,
                 'setBudget',
@@ -250,7 +261,7 @@ export function useERC8183(signer, address, isConnected) {
             );
 
             setActionState({ step: 'funding', isLoading: true, error: null, txHash: null });
-            const txHash = await sendTx(
+            const { txHash } = await sendTx(
                 AGENTIC_COMMERCE_CONTRACT,
                 ERC8183_ABI,
                 'fund',
@@ -273,7 +284,7 @@ export function useERC8183(signer, address, isConnected) {
             setActionState({ step: 'submitting', isLoading: true, error: null, txHash: null });
             const deliverableHash = keccak256(toHex(deliverableText || 'arc-erc8183-deliverable'));
 
-            const txHash = await sendTx(
+            const { txHash } = await sendTx(
                 AGENTIC_COMMERCE_CONTRACT,
                 ERC8183_ABI,
                 'submit',
@@ -296,7 +307,7 @@ export function useERC8183(signer, address, isConnected) {
             setActionState({ step: 'completing', isLoading: true, error: null, txHash: null });
             const reasonHash = keccak256(toHex(reasonText || 'deliverable-approved'));
 
-            const txHash = await sendTx(
+            const { txHash } = await sendTx(
                 AGENTIC_COMMERCE_CONTRACT,
                 ERC8183_ABI,
                 'complete',
