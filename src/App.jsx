@@ -9,6 +9,8 @@ import Liquidity from './pages/Liquidity';
 import Leaderboard from './pages/Leaderboard';
 import Agent from './pages/Agent';
 import Jobs from './pages/Jobs';
+import Send from './pages/Send';
+import UnifiedBalance from './pages/UnifiedBalance';
 import WalletModal from './components/WalletModal';
 import { useWallet } from './context/WalletContext';
 
@@ -51,6 +53,8 @@ function App() {
                     <Route path="/leaderboard" element={<Leaderboard />} />
                     <Route path="/agent" element={<Agent />} />
                     <Route path="/jobs" element={<Jobs />} />
+                    <Route path="/send" element={<Send />} />
+                    <Route path="/balance" element={<UnifiedBalance />} />
                 </Routes>
             </main>
 
@@ -62,19 +66,12 @@ function App() {
                 padding: '1.25rem 1.5rem',
                 textAlign: 'center',
             }}>
-                <div style={{ marginBottom: '0.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                <div className="footer-custom-font" style={{ marginBottom: '0.5rem', color: 'var(--text-muted)' }}>
                     Built by{' '}
-                    <a href="https://github.com/Kewe63" target="_blank" rel="noopener noreferrer"
-                        style={{
-                            background: 'linear-gradient(135deg, #e8e8ea, #ffffff, #a0a0a8)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                            textDecoration: 'none',
-                            fontWeight: 700
-                        }}>
+                    <a href="https://github.com/Kewe63" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', fontWeight: 600 }}>
                         Kewe63
                     </a>
+                    {' '}· Arc Testnet Toolkit
                 </div>
                 <div style={{
                     display: 'inline-flex', alignItems: 'center', gap: '0.4rem',

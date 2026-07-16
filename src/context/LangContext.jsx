@@ -149,6 +149,20 @@ const translations = {
         rank: 'RANK',
         wallet: 'WALLET',
         points: 'POINTS',
+
+        // Unified Balance & Send
+        balanceTitle: 'Unified Balance',
+        balanceSubtitle: 'View and manage all your assets across the Arc Network in one place.',
+        totalAssets: 'Total Assets',
+        asset: 'Asset',
+        sendTitle: 'Send Tokens',
+        sendSubtitle: 'Quickly and securely send your tokens to any wallet.',
+        recipientAddress: 'Recipient Address',
+        enterAddress: 'Enter 0x... address',
+        amount: 'Amount',
+        send: 'Send',
+        sending: 'Sending...',
+        sendSuccess: 'Transaction successful!',
     },
     tr: {
         // Navbar
@@ -295,6 +309,20 @@ const translations = {
         rank: 'SIRA',
         wallet: 'CÜZDAN',
         points: 'PUAN',
+
+        // Unified Balance & Send
+        balanceTitle: 'Birleşik Bakiye',
+        balanceSubtitle: 'Arc Network üzerindeki tüm varlıklarınızı tek bir yerden görüntüleyin ve yönetin.',
+        totalAssets: 'Toplam Varlık',
+        asset: 'Varlık',
+        sendTitle: 'Token Gönder',
+        sendSubtitle: 'Tokenlerinizi herhangi bir cüzdana hızlı ve güvenli bir şekilde gönderin.',
+        recipientAddress: 'Alıcı Adresi',
+        enterAddress: '0x... adresini girin',
+        amount: 'Miktar',
+        send: 'Gönder',
+        sending: 'Gönderiliyor...',
+        sendSuccess: 'İşlem başarılı!',
     },
 };
 

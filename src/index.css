@@ -4,6 +4,20 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
+@font-face {
+  font-family: 'Moldyen';
+  src: url('/fonts/Moldyen.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Staying Passionate';
+  src: url('/fonts/Staying Passionate.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* ===================== DARK THEME (default) ===================== */
 :root {
   --bg-primary: #0a0a0b;
@@ -169,7 +183,8 @@ body::after {
 .logo-svg { filter: drop-shadow(0 0 6px rgba(200,200,210,0.25)); transition: filter 0.3s; }
 [data-theme="light"] .logo-svg { filter: drop-shadow(0 0 6px rgba(60,60,80,0.2)); }
 .logo-wordmark {
-  font-size: 1.3rem; font-weight: 700; letter-spacing: -0.03em;
+  font-family: 'Moldyen', sans-serif;
+  font-size: 1.5rem; font-weight: 700; letter-spacing: 0.02em;
   background: var(--gradient-silver-text);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
@@ -188,14 +203,14 @@ nav.main-nav {
 }
 
 .nav-links {
-  display: flex; align-items: center; gap: 0.15rem;
-  position: absolute; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 0.1rem;
+  flex: 1; justify-content: center;
 }
 
 .nav-link {
-  display: flex; align-items: center; gap: 0.4rem;
-  padding: 0.45rem 0.875rem; border-radius: var(--radius-md);
-  font-size: 0.85rem; font-weight: 500;
+  display: flex; align-items: center; gap: 0.3rem;
+  padding: 0.35rem 0.6rem; border-radius: var(--radius-md);
+  font-size: 0.78rem; font-weight: 500;
   text-decoration: none; color: var(--text-secondary);
   transition: all var(--transition-fast);
   border: 1px solid transparent; letter-spacing: 0.01em;
@@ -532,13 +547,24 @@ nav.main-nav {
   color: var(--text-muted);
 }
 .page-title {
-  font-size: clamp(1.9rem, 4vw, 2.75rem);
-  font-weight: 800; letter-spacing: -0.04em; line-height: 1.1;
+  font-family: 'Moldyen', sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 800; letter-spacing: 0.02em; line-height: 1.1;
   margin-bottom: 0.5rem;
 }
 .page-subtitle {
   font-size: 0.875rem; color: var(--text-secondary);
   font-family: var(--font-mono); line-height: 1.6;
+}
+
+.footer-custom-font {
+  font-family: 'Moldyen', sans-serif;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.02em;
+  background: var(--gradient-silver-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ===================== ANIMATIONS ===================== */
