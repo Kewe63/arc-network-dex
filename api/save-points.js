@@ -31,7 +31,7 @@ async function handler(req, res) {
     client = new MongoClient(MONGODB_URI);
     await client.connect();
 
-    const db = client.db('arc-dex');
+    const db = client.db('adex-hub');
     const leaderboard = db.collection('leaderboard');
 
     // Upsert: var ise güncelle, yoksa yeni oluştur

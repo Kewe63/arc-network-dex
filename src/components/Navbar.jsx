@@ -4,7 +4,7 @@ import { Sun, Moon, Wallet, Menu, X, Shuffle, Droplet, Globe, Coins, Trophy, Bot
 import { useWallet } from '../context/WalletContext';
 import { useLang } from '../context/LangContext';
 
-// Arcdex "A" logo SVG — metallic arc shape
+// Adex-hub "A" logo SVG — metallic arc shape
 function ArcLogo({ size = 28 }) {
     return (
         <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="logo-svg">
@@ -55,7 +55,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link to="/" className="logo-mark" onClick={close}>
                 <ArcLogo size={30} />
-                <span className="logo-wordmark">Arcdex</span>
+                <span className="logo-wordmark">Adex-hub</span>
             </Link>
 
             {/* Desktop center links */}

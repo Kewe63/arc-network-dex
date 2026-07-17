@@ -1,4 +1,4 @@
-# Arcdex — Decentralized Stablecoin FX Exchange on Arc Network  
+# Adex-hub — Decentralized Stablecoin FX Exchange on Arc Network  
 
 ---
 
@@ -35,7 +35,7 @@
 
 ## Overview
 
-**Arcdex** is a decentralized exchange (DEX) focused exclusively on stablecoin FX trading. Unlike traditional AMM-based DEXes, Arcdex uses Arc Network's native FX engine to provide **deterministic exchange rates** — meaning no impermanent loss, no price impact, and no order books.
+**Adex-hub** is a decentralized exchange (DEX) focused exclusively on stablecoin FX trading. Unlike traditional AMM-based DEXes, Adex-hub uses Arc Network's native FX engine to provide **deterministic exchange rates** — meaning no impermanent loss, no price impact, and no order books.
 
 The protocol leverages **Permit2** (Uniswap's universal token authorization standard) to allow users to authorize swaps with an off-chain signature instead of an on-chain `approve()` transaction — saving gas and improving UX significantly.
 
@@ -156,7 +156,7 @@ Get testnet tokens from the built-in **Faucet** page (redirects to Circle's offi
 ## Project Structure
 
 ```
-arc-dex/
+adex-hub/
 ├── api/
 │   └── execute-swap.js          # Vercel serverless relayer — submits swap tx on-chain
 ├── src/
@@ -273,7 +273,7 @@ UI updates balances, awards volume points, logs activity, fires confetti
 
 ### Permit2 Integration
 
-Arcdex uses [Uniswap's Permit2](https://github.com/Uniswap/permit2) contract (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) for gasless token authorization.
+Adex-hub uses [Uniswap's Permit2](https://github.com/Uniswap/permit2) contract (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) for gasless token authorization.
 
 - **One-time setup**: User calls `approve(Permit2, MaxUint256)` on their token — this is the only on-chain approve they ever need.
 - **Per-swap**: User signs a `PermitTransferFrom` typed data message specifying the exact token, amount, nonce, and deadline. This signature is sent to the relayer.
@@ -354,7 +354,7 @@ The network is automatically added to MetaMask on first connection if not alread
 
 ```bash
 git clone https://github.com/Kewe63/arc-network-dex.git
-cd arc-dex
+cd adex-hub
 npm install
 ```
 
@@ -434,7 +434,7 @@ This project is open source. Feel free to fork, build on, and contribute.
 
 ## ERC-8004 AI Agent Registry
 
-Arcdex implements the **ERC-8004** standard — a protocol for registering AI agents with onchain identity, reputation, and credential verification on Arc Testnet.
+Adex-hub implements the **ERC-8004** standard — a protocol for registering AI agents with onchain identity, reputation, and credential verification on Arc Testnet.
 
 ### Contracts
 

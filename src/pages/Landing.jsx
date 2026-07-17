@@ -356,7 +356,7 @@ export default function Landing() {
                         fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)',
                         fontWeight: 800, letterSpacing: '-0.035em', lineHeight: 1.2,
                     }}>
-                        {lang === 'tr' ? 'Neden Arcdex farklı?' : 'What makes Arcdex different?'}
+                        {lang === 'tr' ? 'Neden Adex-hub farklı?' : 'What makes Adex-hub different?'}
                     </h2>
                     <p className="font-mono" style={{
                         fontSize: '0.875rem', color: 'var(--text-secondary)',

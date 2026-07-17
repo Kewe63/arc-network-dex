@@ -25,14 +25,14 @@ export const WalletProvider = ({ children }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        const savedTheme = localStorage.getItem('arc-dex-theme') || 'dark';
+        const savedTheme = localStorage.getItem('adex-hub-theme') || 'dark';
         setTheme(savedTheme);
     }, []);
 
     const toggleTheme = () => {
         const next = theme === 'dark' ? 'light' : 'dark';
         setTheme(next);
-        localStorage.setItem('arc-dex-theme', next);
+        localStorage.setItem('adex-hub-theme', next);
     };
 
     const connectWallet = async (type = 'metamask') => {

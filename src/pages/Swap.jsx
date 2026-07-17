@@ -68,7 +68,7 @@ export default function Swap() {
                     </span>
                     <span className="status-badge status-badge-info">Arc Testnet</span>
                 </div>
-                <h1 className="page-title silver-text">ARC DEX</h1>
+                <h1 className="page-title silver-text">ADEX-HUB</h1>
                 <p className="page-subtitle">
                     Instant USDC ↔ EURC swaps · Powered by Arc Network · Gas paid in USDC
                 </p>

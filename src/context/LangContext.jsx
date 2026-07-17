@@ -84,10 +84,10 @@ const translations = {
         heroSubtitle: 'Next-gen decentralized stablecoin FX platform built natively on Arc Network. Instant, low-cost swaps between USDC and EURC — no bridges, no wrapped tokens.',
         launchApp: 'Launch App',
         addLiquidity: 'Add Liquidity',
-        whyArcdex: 'Why Arcdex?',
+        'whyAdex-hub': 'Why Adex-hub?',
         whySubtitle: 'Built for speed, security, and simplicity.',
         howItWorks: 'How It Works',
-        howItWorksBody: "Arcdex connects directly to Arc Network's native FX engine. When you initiate a swap, the protocol signs a Permit2 authorization off-chain (no gas), then a relayer executes the settlement on-chain. No order books, no AMM impermanent loss — just deterministic FX rates.",
+        howItWorksBody: "Adex-hub connects directly to Arc Network's native FX engine. When you initiate a swap, the protocol signs a Permit2 authorization off-chain (no gas), then a relayer executes the settlement on-chain. No order books, no AMM impermanent loss — just deterministic FX rates.",
         startTrading: 'Start Trading',
         feat0Title: 'Zero Slippage',
         feat0Desc: 'Deterministic FX rates — no AMM impermanent loss.',
@@ -120,7 +120,7 @@ const translations = {
 
         // Faucet
         faucetTitle: 'Fuel Your Wallet',
-        faucetSubtitle: 'Arc DEX runs on the Arc Testnet. You need testnet USDC to pay for gas and trade.',
+        faucetSubtitle: 'Adex Hub runs on the Arc Testnet. You need testnet USDC to pay for gas and trade.',
         faucetBody: 'Use the official Circle Faucet to receive testnet USDC directly to your wallet. Then come back and start trading instantly.',
         openFaucet: 'Open Circle Faucet',
         quickSteps: 'Quick Steps',
@@ -244,10 +244,10 @@ const translations = {
         heroSubtitle: 'Arc Network üzerinde geliştirilen yeni nesil merkezi olmayan stablecoin FX platformu. USDC ve EURC arasında anında, düşük maliyetli takaslar — köprü yok, sarılmış token yok.',
         launchApp: 'Uygulamayı Aç',
         addLiquidity: 'Likidite Ekle',
-        whyArcdex: 'Neden Arcdex?',
+        'whyAdex-hub': 'Neden Adex-hub?',
         whySubtitle: 'Hız, güvenlik ve sadelik için tasarlandı.',
         howItWorks: 'Nasıl Çalışır?',
-        howItWorksBody: "Arcdex, Arc Network'ün yerel FX motoruna doğrudan bağlanır. Bir takas başlattığınızda, protokol zincir dışında Permit2 yetkilendirmesi imzalar (gaz yok), ardından bir röle zincir üzerinde uzlaşmayı gerçekleştirir. Emir defteri yok, AMM kalıcı kaybı yok — sadece deterministik FX kurları.",
+        howItWorksBody: "Adex-hub, Arc Network'ün yerel FX motoruna doğrudan bağlanır. Bir takas başlattığınızda, protokol zincir dışında Permit2 yetkilendirmesi imzalar (gaz yok), ardından bir röle zincir üzerinde uzlaşmayı gerçekleştirir. Emir defteri yok, AMM kalıcı kaybı yok — sadece deterministik FX kurları.",
         startTrading: 'Ticarete Başla',
         feat0Title: 'Sıfır Kayma',
         feat0Desc: 'Deterministik FX kurları — AMM kalıcı kaybı yok.',
@@ -280,7 +280,7 @@ const translations = {
 
         // Faucet
         faucetTitle: 'Cüzdanını Doldur',
-        faucetSubtitle: 'Arc DEX, Arc Testnet üzerinde çalışır. Gaz için ve işlem yapmak üzere testnet USDC\'ye ihtiyacın var.',
+        faucetSubtitle: 'Adex Hub, Arc Testnet üzerinde çalışır. Gaz için ve işlem yapmak üzere testnet USDC\'ye ihtiyacın var.',
         faucetBody: 'Testnet USDC\'yi doğrudan cüzdanına almak için resmi Circle Faucet\'i kullan. Sonra geri dön ve anında işlem yapmaya başla.',
         openFaucet: 'Circle Faucet\'i Aç',
         quickSteps: 'Hızlı Adımlar',
